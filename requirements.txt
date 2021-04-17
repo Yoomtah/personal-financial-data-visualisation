@@ -1,3 +1,4 @@
 pandas~=1.2.4
 hvplot~=0.7.1
 ofxparse~=0.20
+pyYAML~=5.4.1

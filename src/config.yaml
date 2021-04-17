@@ -1,0 +1,23 @@
+debit_filename: ../data/sample/sample.ofx
+savings_filename: ../data/sample/sample.ofx
+expense-categories:
+  - JunkFood:
+    - MCDONALDS
+    - KFC
+    - Hungry Jacks
+    - GUZMAN Y GOMEZ
+    - EMMANUELS CARVERY
+    - PUMA ENERGY
+  - Restaurants:
+    - PIG N WHISTLE
+    - HOTEL MONIER
+  - Rent:
+    - RENT
+  - Entertainment:
+    - READING CINEMAS
+  - Bills:
+    - BELONG
+  - PublicTransport:
+    - TRANSLINK
+  - Petrol:
+    - CALTEX
