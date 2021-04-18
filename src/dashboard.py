@@ -18,7 +18,7 @@ def render_basic_graphs(df, transaction_type):
     render_list = []
     df['amount'] = abs(df['amount']).astype(float)
     time_hover = HoverTool(tooltips=[("amount", "$@amount{0,0.00}"), ("date", '@date_formatted')]) 
-    time_line = df.plot.line(x='date', y='amount', logy=True, yformatter='$%.00f', title=f"{transaction_type} over time").opts(tools=[time_hover])
+    time_line = df.plot.line(x='date', y='amount', logy=True, yformatter='$%.00f', title=f"{transaction_type} over time (Log scale)").opts(tools=[time_hover])
 
     render_list.append(hv.render(time_line, backend='bokeh'))
 
@@ -42,15 +42,24 @@ def render_advanced_graphs(df, transaction_type):
     render_list.append(hv.render(stacked_bar, backend='bokeh'))
     return render_list
 
-def render_income_vs_expense_graph(df):
+def render_income_vs_expense_graphs(df):
+    render_list = []
     df['amount'] = abs(df['amount']).astype(float)
+
+    time_hover = HoverTool(tooltips=[("amount", "$@amount{0,0.00}"), ("date", '@date_formatted')]) 
+    time_line = df.plot.line(x='date', y='amount', by='type', yformatter='$%.00f',
+            title="Income vs Expenses over time").opts(tools=[time_hover])
+
+    render_list.append(hv.render(time_line, backend='bokeh'))
+
     cat_hover = HoverTool(tooltips=[("amount", "$@amount{0,0.00}"), ("type", "@type")]) 
     df.set_index(pd.DatetimeIndex(df['date']), inplace=True)
     df = df.groupby([pd.Grouper(freq='M'), 'type'])['amount'].sum()
     formatter = DatetimeTickFormatter(days="%d-%b-%Y", months='%m/%Y', years='%m/%Y')
     stacked_bar = df.plot.bar(stacked=True, xformatter=formatter, yformatter='$%.00f', 
             title="Income vs Expenses by Month").opts(tools=[cat_hover])
-    return hv.render(stacked_bar, backend='bokeh')
+    render_list.append(hv.render(stacked_bar, backend='bokeh'))
+    return render_list
 
 
 expense_filter = merged_df['type'].str.contains("Expense")
@@ -68,4 +77,4 @@ income_renders += render_advanced_graphs(income_df, "Income")
 
 curdoc().title = "Personal Finance"
 curdoc().add_root(row(column(expense_renders), column(income_renders)))
-curdoc().add_root(row(render_income_vs_expense_graph(merged_df)))
+curdoc().add_root(row(render_income_vs_expense_graphs(merged_df)))
