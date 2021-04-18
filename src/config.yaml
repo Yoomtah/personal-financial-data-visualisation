@@ -6,18 +6,18 @@ expense-categories:
     - KFC
     - Hungry Jacks
     - GUZMAN Y GOMEZ
-    - EMMANUELS CARVERY
-    - PUMA ENERGY
   - Restaurants:
     - PIG N WHISTLE
-    - HOTEL MONIER
   - Rent:
     - RENT
   - Entertainment:
-    - READING CINEMAS
+    - CINEMAS
   - Bills:
-    - BELONG
+    - WATER
   - PublicTransport:
     - TRANSLINK
   - Petrol:
     - CALTEX
+income-categories:
+  - Salary:
+    - Pay

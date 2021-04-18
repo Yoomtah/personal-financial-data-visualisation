@@ -131,3 +131,4 @@ dmypy.json
 
 # Sensitive financial information
 data/personal/
+src/actual_config.yaml

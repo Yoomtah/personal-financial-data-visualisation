@@ -6,4 +6,6 @@ RUN pip install -r requirements.txt
 COPY data/ /app/data/
 COPY tests/ /app/tests/
 COPY src/ /app/src/
-CMD python src/statement-parser.py
+WORKDIR /app/src
+CMD bokeh serve --show dashboard.py
+EXPOSE 5006

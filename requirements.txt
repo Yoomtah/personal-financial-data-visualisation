@@ -2,3 +2,5 @@ pandas~=1.2.4
 hvplot~=0.7.1
 ofxparse~=0.20
 pyYAML~=5.4.1
+matplotlib~=3.4.1
+bokeh~=2.3.1
