@@ -4,7 +4,7 @@ import logging
 import pandas as pd
 logging.basicConfig(level=logging.INFO)
 
-with open('actual_config.yaml') as config_file:
+with open('config.yaml') as config_file:
     config = yaml.load(config_file, Loader=yaml.SafeLoader)
 
 
@@ -28,6 +28,7 @@ def assign_type(amount):
 
 
 def parse_ofx_statements():
+    # TODO: Better sample data
     with open(config['debit_filename']) as fileobj:
         debit_ofx = OfxParser.parse(fileobj)
 
