@@ -55,8 +55,21 @@ def render_income_vs_expense_graphs(df):
     cat_hover = HoverTool(tooltips=[("amount", "$@amount{0,0.00}"), ("type", "@type")]) 
     df.set_index(pd.DatetimeIndex(df['date']), inplace=True)
     df = df.groupby([pd.Grouper(freq='M'), 'type'])['amount'].sum()
+    df.to_csv("temp.csv")
+    df3 = pd.read_csv("temp.csv")
+    diff_series = df3.groupby(['date'])['amount'].diff().dropna().reset_index(drop=True)
+    date_series = df3['date'].drop_duplicates().reset_index(drop=True)
+    diff_series = pd.DataFrame(diff_series)
+    df4 = diff_series.join(date_series)
+    df4['type'] = 'Surplus'
+    dtformat = '%Y-%m-%d'
+    df4['date'] = pd.to_datetime(df4['date'], format=dtformat)
+    df4.set_index([pd.DatetimeIndex(df4['date']), 'type'], inplace=True)
+    df4 = df4.drop(['date'], axis=1)
+    df = pd.DataFrame(df)
+    df_merged = pd.concat([df, df4])
     formatter = DatetimeTickFormatter(days="%d-%b-%Y", months='%m/%Y', years='%m/%Y')
-    stacked_bar = df.plot.bar(stacked=True, xformatter=formatter, yformatter='$%.00f', 
+    stacked_bar = df_merged.plot.bar(stacked=True, xformatter=formatter, yformatter='$%.00f', 
             title="Income vs Expenses by Month").opts(tools=[cat_hover])
     render_list.append(hv.render(stacked_bar, backend='bokeh'))
     return render_list
