@@ -40,6 +40,10 @@ def render_advanced_graphs(df, transaction_type):
     stacked_bar = df.plot.bar(stacked=True, xformatter=formatter, yformatter='$%.00f', 
             title=f"{transaction_type} per Category by Month").opts(tools=[cat_hover])
     render_list.append(hv.render(stacked_bar, backend='bokeh'))
+
+    time_hover = HoverTool(tooltips=[("amount", "$@amount{0,0.00}"), ("date", '@date_formatted')]) 
+    time_line = df.plot.line(x='date', y='amount', by='category', logy=True, yformatter='$%.00f', title=f"{transaction_type} by category over time (Log scale)").opts(tools=[time_hover])
+
     return render_list
 
 def render_income_vs_expense_graphs(df):
